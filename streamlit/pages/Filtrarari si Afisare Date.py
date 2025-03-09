@@ -29,7 +29,7 @@ st.dataframe(df2)
 st.markdown("### Filtrare dupa nume de echipa")
 nume_club = st.text_input("Introduceti numele echipei: ")
 if nume_club:
-    st.write(clubs[clubs["name"] == nume_club])
+    st.write(clubs[clubs["name"].str.contains(nume_club, case=False, na=False)])
 st.warning("Daca nu se afiseaza nimic inseamna ca nu exista echipa cu numele respectiv.")
 
 st.markdown("### Filtrare dupa numele familiei unui jucator")
