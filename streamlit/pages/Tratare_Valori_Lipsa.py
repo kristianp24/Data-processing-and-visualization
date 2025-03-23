@@ -12,7 +12,7 @@ players = pd.read_csv(data_path2)
 st.title('Tratarea valorilor lipsa')
 
 
-st.markdown('Tratarea valorilot lipsa pentru tabela de jucatori players.csv')
+st.markdown('Tratarea valorilor lipsa pentru tabela de jucatori players.csv')
 
 st.markdown('Afisam coloanele si daca au valori lipsa.')
 def get_column_name_missing_values(data, column_name):
@@ -47,8 +47,8 @@ st.markdown(r"""
  **Rezolvarea**
             
     Avand in vedere ca majoritatea coloanelor sunt de tip
-    String, am decis ca sa stergem randurile in care lipseste un element de
-    tip String fiindca nu am avea cu ce sa inlocuim.
+    String, am decis sa stergem randurile in care lipseste un element de
+    tip String, deoarece nu am avea cu ce sa le inlocuim.
     
     Pentru coloana **height_in_cm** am decis ca valorile lipsa sa le inlocuim cu media coloanei.
             
