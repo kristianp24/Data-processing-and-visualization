@@ -60,12 +60,15 @@ st.markdown(r"""
 
 st.markdown(r""" **Coloana heights_in_cm** """)
 
-def clean_missing_values_heights(data: pd.DataFrame, col) -> pd.DataFrame:
+def clean_missing_values(data: pd.DataFrame, col) -> pd.DataFrame:
      if data[col].isna().any():
-                data[col] = data[col].fillna(data[col].mean())
+            if col == "foreigners_percentage":
+                  data[col] = data[col].fillna(0)
+            else:    
+                  data[col] = data[col].fillna(data[col].mean())
      return data
 
-players_cleaned_height = clean_missing_values_heights(players, 'height_in_cm')
+players_cleaned_height = clean_missing_values(players, 'height_in_cm')
 st.write(players_cleaned_height.head())
 
 columns_with_none_values = ['first_name', 'country_of_birth', 'country_of_citizenship', 'date_of_birth', 'sub_position', 'foot', 'contract_expiration_date', 'agent_name']
@@ -94,6 +97,8 @@ df_missing_columns2 = pd.DataFrame(list(dict_missing_columns2.items()), columns=
 st.write(df_missing_columns2)
 # players_cleaned_height.to_csv('players_cleaned.csv', index=False)
 
+
+#  ------------- FISIERUL clubs.csv --------------------------------
 st.markdown(r""" **Coloanele cu valori lipsa in fisiserul clubs.csv.** """)
 dict_missing_columns_clubs = {}
 for column in clubs.columns:
@@ -101,5 +106,36 @@ for column in clubs.columns:
 df_missing_columns_clubs = pd.DataFrame(list(dict_missing_columns_clubs.items()), columns=['Column', 'Has_missing_values'])
 st.write(df_missing_columns_clubs)
 
+# ----------------- Coloana total_market_value -----------------------
+st.markdown(r""" **Dupa cum observam mai jos valoarea maxima a coloanei total_market_value este nan ceea ce
+                 indica faptul ca toata coloana este nan, din cauza asta renuntam la acesta coloana**""")
+st.write('Maxim:', clubs['total_market_value'].max())
+clubs.drop('total_market_value', inplace=True, axis=1)
+st.markdown("Setul de date fara coloana total_market_value:")
+st.write(clubs.head())
 
+# ------------------ Coloana coach_name -----------------------------
+st.markdown(r""" Si pentru coloana coach_name exista aceeasi problema, intreaga coloana este lipsa.""")
+st.write('Numarul valorilor non nule: ', clubs.loc[:, 'coach_name'].count())
+st.markdown(r""" Asa ca vom proceda la fel ca la pasul cu coloana anterioara. """)
+clubs.drop('coach_name', inplace=True, axis=1)
+st.write(clubs.head())
 
+# ---------------- Coloana average_age ------------------------------
+clubs = clean_missing_values(clubs, 'average_age')
+st.markdown(r""" **Am inlocuit valorile lipsa cu valoarea medie al coloanei average_age.** """)
+st.write(clubs.head())
+
+# -------------- Coloana foreigners_percentage ------------------------
+st.write(f'Iar pentru coloana foreign_percentage avem {clubs.shape[0] - clubs['foreigners_percentage'].count()} valori lipsa.')
+st.write(' In cazul asta valorile lipsa o sa fie inlocuite cu 0, fiindca exista cluburi care nu au niciun jucator strain si din cauza asta procentul este egaul cu 0.')
+clubs = clean_missing_values(clubs, 'foreigners_percentage')
+st.write(clubs.tail())
+
+st.write('Dupa cum vedem mai jos nu a mai ramas nicio valoare lipsa in setul de date clubs.csv')
+dict_missing_columns_clubs2 = {}
+for column in clubs.columns:
+      dict_missing_columns_clubs2[column] = get_column_name_missing_values(clubs, column)
+df_missing_columns_clubs2 = pd.DataFrame(list(dict_missing_columns_clubs2.items()), columns=['Column', 'Has_missing_values'])
+st.write(df_missing_columns_clubs2)
+# clubs.to_csv('clubs_cleaned.csv', index=False)
