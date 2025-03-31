@@ -88,3 +88,39 @@ st.line_chart(players.groupby('position')['market_value_in_eur'].mean())
 st.divider()
 
 
+# Analiza piciorului de bază
+st.markdown('### Distribuția jucătorilor pe piciorul de bază')
+st.markdown('Câți sunt dreptaci, stângaci și câți folosesc ambele picioare.')
+foot_counts = players['foot'].value_counts()
+st.bar_chart(foot_counts)
+
+# Compararea valorii de piață între jucătorii dreptaci și stângaci
+st.markdown('### Compararea valorii de piață între jucătorii dreptaci și stângaci')
+market_value_comparison = players[players['foot'].isin(['right', 'left'])]
+st.bar_chart(market_value_comparison.groupby('foot')['market_value_in_eur'].mean())
+
+st.divider()
+
+# Analiza jucătorilor activi vs retrași
+st.markdown('### Jucători activi vs retrași')
+st.markdown('Distribuția jucătorilor în funcție de last_season.')
+last_season_counts = players['last_season'].value_counts()
+st.bar_chart(last_season_counts)
+
+st.markdown('### Diferența de valoare de piață între jucătorii retrași și cei activi')
+active_vs_retired = players.copy()
+active_vs_retired['status'] = active_vs_retired['last_season'].apply(lambda x: 'Active' if pd.isna(x) or x >= 2024 else 'Retired')
+st.bar_chart(active_vs_retired.groupby('status')['market_value_in_eur'].mean())
+
+st.divider()
+
+# Analiza vârstei și valorii de piață
+st.markdown('### Vârsta și valoarea de piață')
+players['age'] = 2024 - pd.to_datetime(players['date_of_birth']).dt.year
+players['age_category'] = pd.cut(players['age'], bins=[15, 20, 25, 30, 35, 40, 50], labels=['15-20', '21-25', '26-30', '31-35', '36-40', '40+'])
+st.bar_chart(players.groupby('age_category')['market_value_in_eur'].mean())
+
+st.markdown('### Vârsta cu cea mai mare valoare de piață medie')
+peak_age = players.groupby('age')['market_value_in_eur'].mean().idxmax()
+st.success(f'Vârsta cu cea mai mare valoare de piață medie este: {peak_age} ani')
+
