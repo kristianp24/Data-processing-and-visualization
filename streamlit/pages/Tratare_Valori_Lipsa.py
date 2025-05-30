@@ -3,30 +3,37 @@ import os
 import io
 import pandas as pd
 
-data_path = os.path.join(os.path.dirname(__file__), "clubs.csv")
-clubs = pd.read_csv(data_path)
-data_path2 = os.path.join(os.path.dirname(__file__), "players.csv")
-players = pd.read_csv(data_path2)
+# ------------- Importarea datelor -----------------------------------
+# Asiguram ca fisierele clubs.csv si players.csv sunt in acelasi director cu acest script
+def read_data():
+    data_path = os.path.join(os.path.dirname(__file__), "clubs.csv")
+    clubs = pd.read_csv(data_path)
+    data_path2 = os.path.join(os.path.dirname(__file__), "players.csv")
+    players = pd.read_csv(data_path2)
+    return clubs, players
+
+clubs, players = read_data()
 
 
 st.title('Tratarea valorilor lipsa')
-
-
 st.markdown('Tratarea valorilor lipsa pentru tabela de jucatori players.csv')
-
 st.markdown('Afisam coloanele si daca au valori lipsa.')
+
 def get_column_name_missing_values(data, column_name):
      return data[column_name].isna().any()
 
-dict_missing_columns = {}
-for column in players.columns:
-    #  print(f'Column {column} : {get_column_name_missing_values(column)}')
-    dict_missing_columns[column] = get_column_name_missing_values(players,column)
+# ------------- Afisarea coloanelor cu valori lipsa -------------------
+def get_columns_with_missing_values(data: pd.DataFrame) -> pd.DataFrame:
+    dict_missing_columns = {}
+    for column in players.columns:
+        dict_missing_columns[column] = get_column_name_missing_values(players,column)
 
-# print(dict_missing_columns)
-df_missing_columns = pd.DataFrame(list(dict_missing_columns.items()), columns=['Column', 'Has_missing_values'])
-st.write(df_missing_columns)
-# print(df_missing_columns)
+    df_missing_columns = pd.DataFrame(list(dict_missing_columns.items()), columns=['Column', 'Has_missing_values'])
+    return df_missing_columns
+
+st.write(get_columns_with_missing_values(players))
+
+
 
 
 st.markdown(r"""
@@ -68,6 +75,8 @@ def clean_missing_values(data: pd.DataFrame, col) -> pd.DataFrame:
                   data[col] = data[col].fillna(data[col].mean())
      return data
 
+
+
 players_cleaned_height = clean_missing_values(players, 'height_in_cm')
 st.write(players_cleaned_height.head())
 
@@ -100,11 +109,14 @@ st.write(df_missing_columns2)
 
 #  ------------- FISIERUL clubs.csv --------------------------------
 st.markdown(r""" **Coloanele cu valori lipsa in fisiserul clubs.csv.** """)
-dict_missing_columns_clubs = {}
-for column in clubs.columns:
-      dict_missing_columns_clubs[column] = get_column_name_missing_values(clubs, column)
-df_missing_columns_clubs = pd.DataFrame(list(dict_missing_columns_clubs.items()), columns=['Column', 'Has_missing_values'])
-st.write(df_missing_columns_clubs)
+def get_column_name_missing_values(data: pd.DataFrame, column_name: str) -> pd.DataFrame:
+      dict_missing_columns_clubs = {}
+      for column in clubs.columns:
+           dict_missing_columns_clubs[column] = get_column_name_missing_values(clubs, column)
+      df_missing_columns_clubs = pd.DataFrame(list(dict_missing_columns_clubs.items()), columns=['Column', 'Has_missing_values'])
+      return df_missing_columns_clubs
+
+st.write(get_column_name_missing_values(clubs))
 
 # ----------------- Coloana total_market_value -----------------------
 st.markdown(r""" **Dupa cum observam mai jos valoarea maxima a coloanei total_market_value este nan ceea ce

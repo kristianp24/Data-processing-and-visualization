@@ -14,11 +14,14 @@ st.write(f' Valorile unice din coloana foot: {set(players['foot'].values)}')
 encoder = LabelEncoder()
 
 st.write(' Codificarea coloanei position: ')
-players['position_encoded'] = encoder.fit_transform(players['position'])
+def encode_column(column):
+    return encoder.fit_transform(column)
+
+players['position_encoded'] = encode_column(players['position'])
 st.write(players[['position', 'position_encoded']].head())
 
 st.write(' Codificarea coloanei foot: ')
-players['foot_encoded'] = encoder.fit_transform(players['foot'])
+players['foot_encoded'] = encode_column(players['foot'])
 st.write(players[['foot', 'foot_encoded']].head(10))
 
 
