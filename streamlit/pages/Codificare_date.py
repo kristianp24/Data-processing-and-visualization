@@ -6,6 +6,9 @@ import streamlit as st
 data_path2 = os.path.join(os.path.dirname(__file__), "players_cleaned.csv")
 players = pd.read_csv(data_path2)
 
+def encode_column(column):
+    return encoder.fit_transform(column)
+
 st.markdown(r""" **Codificarea a datelor** """)
 st.write(' Ca inceput am ales sa codificam coloanele: position si foot din setul de date pentru jucatori. ')
 st.write(f' Valorile unice din coloana position: {set(players['position'].values)}')
@@ -14,8 +17,7 @@ st.write(f' Valorile unice din coloana foot: {set(players['foot'].values)}')
 encoder = LabelEncoder()
 
 st.write(' Codificarea coloanei position: ')
-def encode_column(column):
-    return encoder.fit_transform(column)
+
 
 players['position_encoded'] = encode_column(players['position'])
 st.write(players[['position', 'position_encoded']].head())
