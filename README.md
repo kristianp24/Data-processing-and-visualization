@@ -1,5 +1,14 @@
 # 📊 Data Processing & Visualization App
 
+![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.32-ff4b4b?logo=streamlit&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-1.5.3-150458?logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-1.24-013243?logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.2.2-F7931E?logo=scikitlearn&logoColor=white)
+![Statsmodels](https://img.shields.io/badge/Statsmodels-0.14.0-lightgrey)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7.1-darkgreen?logo=plotly&logoColor=white)
+
+
 > 🚀 Collaborative Python + Streamlit app for exploring built-in datasets, regression, clustering & stats
 
 This project, built with a friend at university, showcases **data processing**, **visualization**, **regression**, **clustering**, and more—all powered by **Streamlit** using **pre-loaded sample datasets**.
