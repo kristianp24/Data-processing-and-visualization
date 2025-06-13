@@ -40,6 +40,7 @@ git clone https://github.com/kristianp24/Data-processing-and-visualization.git
 cd Data-processing-and-visualization
 cd streamlit
 streamlit run Home.py
+```
 
 Keep in mind to have installed all the needed libraries.
 
