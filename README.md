@@ -45,6 +45,7 @@ streamlit run Home.py
 Keep in mind to have installed all the needed libraries.
 
 👥 Contributors
+---
 Kristian – @kristianp24
 
 Andrei – @aandrew
