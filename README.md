@@ -46,6 +46,6 @@ Keep in mind to have installed all the needed libraries.
 
 👥 Contributors
 ---
-Kristian – @kristianp24
+[Kristian](https://github.com/kristianp24)
 
-Andrei – @aandrew
+[Andrei](https://github.com/anndrw)
